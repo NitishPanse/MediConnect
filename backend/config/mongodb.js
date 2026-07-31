@@ -3,7 +3,16 @@ import mongoose from "mongoose";
 const connectDB = async () => {
 
     mongoose.connection.on('connected', () => console.log("Database Connected"))
-    await mongoose.connect(`${process.env.MONGODB_URI}/prescripto`)
+    
+    let uri = process.env.MONGODB_URI;
+    if (uri && !uri.includes('/prescripto')) {
+        if (uri.endsWith('/')) {
+            uri = `${uri}prescripto`;
+        } else if (!uri.includes('mongodb.net/')) {
+            uri = `${uri}/prescripto`;
+        }
+    }
+    await mongoose.connect(uri || process.env.MONGODB_URI)
 
 }
 
