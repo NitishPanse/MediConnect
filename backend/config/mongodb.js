@@ -12,7 +12,7 @@ const connectDB = async () => {
     }
 
     try {
-        await mongoose.connect(uri, { dbName: 'prescripto' });
+        await mongoose.connect(uri, { dbName: 'prescripto', authSource: 'admin' });
     } catch (error) {
         console.error("MongoDB Connection Error:", error.message);
     }
