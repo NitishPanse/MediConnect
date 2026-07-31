@@ -14,8 +14,8 @@ connectDB()
 connectCloudinary()
 
 // middlewares
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 
 // api endpoints
 app.use("/api/user", userRouter)
@@ -26,4 +26,8 @@ app.get("/", (req, res) => {
   res.send("API Working")
 });
 
-app.listen(port, () => console.log(`Server started on PORT:${port}`))
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(port, () => console.log(`Server started on PORT:${port}`))
+}
+
+export default app

@@ -4,15 +4,13 @@ const connectDB = async () => {
 
     mongoose.connection.on('connected', () => console.log("Database Connected"))
     
-    let uri = process.env.MONGODB_URI;
-    if (uri && !uri.includes('/prescripto')) {
-        if (uri.endsWith('/')) {
-            uri = `${uri}prescripto`;
-        } else if (!uri.includes('mongodb.net/')) {
-            uri = `${uri}/prescripto`;
-        }
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+        console.error("MONGODB_URI environment variable is missing!");
+        return;
     }
-    await mongoose.connect(uri || process.env.MONGODB_URI)
+
+    await mongoose.connect(uri, { dbName: 'prescripto' })
 
 }
 
